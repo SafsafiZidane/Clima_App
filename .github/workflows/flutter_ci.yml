@@ -1,17 +1,26 @@
-ios-build:
-  runs-on: macos-latest
+name: Flutter iOS Build
 
-  steps:
-    - uses: actions/checkout@v4
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.19.0'
-        channel: 'stable'
+jobs:
+  ios-build:
+    runs-on: macos-latest
 
-    - name: Install dependencies
-      run: flutter pub get
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Build iOS (no signing)
-      run: flutter build ios --no-codesign
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS (no signing)
+        run: flutter build ios --no-codesign
